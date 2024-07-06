@@ -1,4 +1,5 @@
 document.getElementById('send-button').addEventListener('click', sendMessage);
+document.body.addEventListener('click', handleBodyClick);
 
 function sendMessage() {
     const input = document.getElementById('chat-input');
@@ -31,4 +32,25 @@ function displayMessage(sender, message) {
     messageElement.textContent = `${sender}: ${message}`;
     chatBody.appendChild(messageElement);
     chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function handleBodyClick() {
+    const chatContainer = document.getElementById('chat-container');
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    } else {
+        chatContainer.requestFullscreen().catch(err => {
+            console.error(`エラー: ${err.message}`);
+        });
+    }
+
+    const audio = document.getElementById('audio-player');
+    if (audio.paused) {
+        audio.play().catch(err => {
+            console.error(`オーディオ再生エラー: ${err.message}`);
+        });
+    } else {
+        audio.pause();
+        audio.currentTime = 0;
+    }
 }
